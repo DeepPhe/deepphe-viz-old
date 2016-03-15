@@ -1,4 +1,4 @@
-name := """play-java"""
+name := """deepphe-viz"""
 
 version := "1.0-SNAPSHOT"
 
@@ -19,4 +19,4 @@ libraryDependencies ++= Seq(
 routesGenerator := InjectedRoutesGenerator
 
 
-fork in run := true
+fork in run := false

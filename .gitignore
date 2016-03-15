@@ -1,4 +1,5 @@
 *~
+.project
 logs
 target
 /.idea
@@ -12,3 +13,4 @@ target
 /.cache-main
 /.cache-tests
 /project/
+/bin/
