@@ -1,0 +1,46 @@
+@(patients: List[db.Patient])
+
+@main("DeepPHE Demo") {
+	
+	@for(patient <- patients){
+    	<h1>@patient.getName()</h1>
+    	@for(document <- patient.getDocuments()){
+    		<h2>@document.getName() Summary</h2>
+    		<h3>Diagnoses</h3>
+    		@if(document.getDiagnoses()!=null){
+	    		<ul>
+	    			@for(dx <- document.getDiagnoses()){
+	    				<li>@dx.getName()</li>	
+	    			}
+	    		</ul>
+	    	}
+    		<h3>Procedures</h3>
+    		@if(document.getProcedures()!=null){
+	    		<ul>
+	    			@for(proc <- document.getProcedures()){
+	    				<li>@proc.getName()</li>	
+	    			}
+	    		</ul>
+	    	}
+    		<h3>Observations</h3>
+    		@if(document.getObservations()!=null){
+	    		<ul>
+	    			@for(obs <- document.getObservations()){
+	    				<li>@obs.getName()</li>	
+	    			}
+	    		</ul>
+	    	}
+    		<h3>Medications</h3>
+    		@if(document.getMedications()!=null){
+	    		<ul>
+	    			@for(medication <- document.getMedications()){
+	    				<li>@medication.getName()</li>	
+	    			}
+	    		</ul>
+	    	}
+    		<hr/>
+    		<h4>Report Text</h4>
+    		<p>@document.getText()</p>
+    	}
+    }
+}
