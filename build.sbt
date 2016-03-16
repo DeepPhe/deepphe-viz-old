@@ -19,4 +19,10 @@ libraryDependencies ++= Seq(
 routesGenerator := InjectedRoutesGenerator
 
 
+EclipseKeys.projectFlavor := EclipseProjectFlavor.Java           // Java project. Don't expect Scala IDE
+EclipseKeys.createSrc := EclipseCreateSrc.ValueSet(EclipseCreateSrc.ManagedClasses, EclipseCreateSrc.ManagedResources)  // Use .class files instead of generated .scala files for views and routes
+
+EclipseKeys.createSrc := EclipseCreateSrc.All
+EclipseKeys.preTasks := Seq(compile in Compile)
+
 fork in run := false
