@@ -8,13 +8,14 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
 import views.html.neo4jdemo;
+import views.html.patientview;
 
-public class Neo4JDemo extends Controller {
+public class PatientView extends Controller {
 
 
 	
 	
-   public Result demo() {
+   public Result show(String patient) {
 	   
 	    String SERVER_ROOT_URI = "http://localhost:7474/db/data/";
 	   	String username = "neo4j";
@@ -22,9 +23,8 @@ public class Neo4JDemo extends Controller {
 	   
 	   	try {
 			DatamodelUtility caller = new DatamodelUtility(SERVER_ROOT_URI, username, password);
-			List<Patient> patients = caller.getPatients();
-			System.out.println(patients.size());
-			return ok(neo4jdemo.render(patients));
+			Patient p = caller.getPatient(patient);
+			return ok(patientview.render(p));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ok(index.render(e.getMessage()));

@@ -1,0 +1,41 @@
+@(patient: db.Patient) @main("DeepPHE Demo") {
+
+@patient.getName()
+
+@for(document <- patient.getDocuments()){
+@document.getName() Summary
+
+Diagnoses
+
+@if(document.getDiagnoses()!=null){
+@for(dx <- document.getDiagnoses()){
+@dx.getName()
+}
+}
+Procedures
+
+@if(document.getProcedures()!=null){
+@for(proc <- document.getProcedures()){
+@proc.getName()
+}
+}
+Observations
+
+@if(document.getObservations()!=null){
+@for(obs <- document.getObservations()){
+@obs.getName()
+}
+}
+Medications
+
+@if(document.getMedications()!=null){
+@for(medication <- document.getMedications()){
+@medication.getName()
+}
+}
+Report Text
+
+@document.getText()
+
+} 
+}

@@ -22,8 +22,10 @@ public class DatamodelUtility extends Neo4JRESTCaller{
 		for(LinkedHashMap<String,Object> datamap:rows){
 			Patient p = new Patient();
 			patientList.add(p);
-			p.setId((int) datamap.get("id"));
-			p.setName((String) datamap.get("name"));
+			int pid = (int) datamap.get("id");
+			String pname = (String) datamap.get("name");
+			p.setId(pid);
+			p.setName(pname);
 			p.setDocuments(new ArrayList<Document>());
 			List<LinkedHashMap<String,Object>> docrows = getIncomingNodesWithRelationshipType(p.getId()+"", "hasSubject");
 			
@@ -73,6 +75,11 @@ public class DatamodelUtility extends Neo4JRESTCaller{
 		}
 		
 		return patientList;
+	}
+	
+	public Patient getPatient(String name) {
+		Patient p = null;
+		return p;
 	}
 	
 }
