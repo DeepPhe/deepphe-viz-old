@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Document extends Node {
 	String text;
+	String date;
 	Patient subject;
 	
 	
@@ -17,6 +18,15 @@ public class Document extends Node {
 	public void setText(String text) {
 		this.text = text;
 	}
+	
+	public String getDate() {
+		return date;
+	}
+	
+	public void setDate(String date) {
+		this.date = date;
+	}
+	
 	public Patient getSubject() {
 		return subject;
 	}

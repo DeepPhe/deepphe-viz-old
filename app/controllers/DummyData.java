@@ -63,11 +63,11 @@ public class DummyData extends Controller {
 			ArrayList<String> statements = new ArrayList<String>();
 			statements.add(createPatient("George"));
 			statements.add(createPatient("Harry"));
-			statements.add(createDocument("doc1", "2015-12-15 09:00"));
+			statements.add(createDocument("doc1", "2015-12-15 09:00","document 1 text"));
 			statements.add(createHasSubjectQuery("Harry", "doc1"));
 			statements.add(createDiagnosis("Malignant Breast Neoplasm", "[left breast]", "II"));
 			statements.add(createHasDiagnosisQuery("doc1", "Malignant Breast Neoplasm"));
-			statements.add(createDocument("doc2", "2015-12-20 09:00"));
+			statements.add(createDocument("doc2", "2015-12-20 09:00","document 2 text"));
 			statements.add(createHasSubjectQuery("Harry", "doc2"));
 			statements.add(createObservation("PR-neg", "negative", "left breast"));
 			statements.add(createHasObservation("doc2", "PR-neg"));
@@ -75,7 +75,7 @@ public class DummyData extends Controller {
 			statements.add(createHasObservation("doc2", "Her2"));
 			statements.add(createObservation("ER", "negative", ""));
 			statements.add(createHasObservation("doc2", "ER"));
-			statements.add(createDocument("doc3", "2015-12-16 12:00"));
+			statements.add(createDocument("doc3", "2015-12-16 12:00","document 3 text"));
 			statements.add(createHasSubjectQuery("Harry", "doc3"));
 			statements.add(createMedication("taxotere"));
 			statements.add(createMedication("carboplatin"));
@@ -132,10 +132,11 @@ public class DummyData extends Controller {
 		return res;
 	}
 
-	private String createDocument(String name, String date) {
+	private String createDocument(String name, String date,String text) {
 		HashMap<String, String> atts = new HashMap<String, String>();
 		atts.put("name", name);
 		atts.put("date", date);
+		atts.put("text", text);
 		return createNodeQuery("Document", atts);
 	}
 

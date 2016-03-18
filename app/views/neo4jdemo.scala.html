@@ -6,6 +6,9 @@
     	<h1>@patient.getName()</h1>
     	@for(document <- patient.getDocuments()){
     		<h2>@document.getName() Summary</h2>
+    		@if(document.getDate() != null) {
+    		  <h3>Date: @document.getDate</h3>
+    		}
     		<h3>Diagnoses</h3>
     		@if(document.getDiagnoses()!=null){
 	    		<ul>
@@ -38,9 +41,10 @@
 	    			}
 	    		</ul>
 	    	}
-    		<hr/>
+    	
     		<h4>Report Text</h4>
     		<p>@document.getText()</p>
+    			<hr/>
     	}
     }
 }
