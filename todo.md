@@ -1,7 +1,4 @@
-
-*  test
-** set up a test to populate dummy data and then get back out
-** run as basic test
+* test
 ** configure travis with neo4j
 ** have it run the test
 * figure out what to do with list of bodysites
@@ -32,3 +29,6 @@ Done
 * test
 * push
 *mail girish
+*  test
+** set up a test to populate dummy data and then get back out
+** run as basic test
