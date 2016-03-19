@@ -18,6 +18,7 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import controllers.DummyData;
 import db.DatamodelUtility;
 import db.Patient;
 
@@ -26,6 +27,11 @@ public class Neo4JRESTCallerTest {
 	
 	@Test
 	public void testGetPatients() {
+		
+		DummyData d  = new DummyData();
+		
+		
+		d.populate();
 		String SERVER_ROOT_URI = "http://localhost:7474/db/data/";
     	String username = "neo4j";
     	String password = "neo4jpass";
@@ -39,7 +45,7 @@ public class Neo4JRESTCallerTest {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
-    	
+    	d.clear();
 	}
 	
 //	@Test
