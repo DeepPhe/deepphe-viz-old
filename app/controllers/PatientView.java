@@ -12,9 +12,6 @@ import views.html.patientview;
 
 public class PatientView extends Controller {
 
-
-	
-	
    public Result show(String patient) {
 	   
 	    String SERVER_ROOT_URI = "http://localhost:7474/db/data/";

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.text.MessageFormat;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -38,6 +40,8 @@ public class Neo4JRESTCaller {
 		this.username = username;
 		this.password = password;
 	}
+	
+	
 
 
 	public List<LinkedHashMap<String, Object>>	getNodesWithLabel(String label) throws JsonParseException, JsonMappingException, IOException{
@@ -47,6 +51,47 @@ public class Neo4JRESTCaller {
 	   
         return objectifyNodeJSON(jsonStr);
         
+	}
+	
+	
+	
+	public List<LinkedHashMap<String,Object>> getNodesWithLabelAndAttributes(String label, Map<String,String> attributes ) throws JsonParseException, JsonMappingException, IOException {
+		String postURI = serverRootURI+ "transaction/commit";
+		String query = makeCypherQuery(label,attributes);
+		String jsonStr = makePOSTCall(postURI,query);
+		return objectifyNodeJSON(jsonStr);
+	}
+	
+	// this code is in dummy data as well.. might want to consolidate later
+	private static String statementWrapper = "'{' \"statements\": [ {0} ] \" '}' ";
+	private static String matchQuery = "'{' \"statement\": \"match (n:{0} {1}) return id(n)\" '}'";
+	private static String createNodeAttributes = "  '{' {0} '}'";
+	
+	private String makeCypherQuery(String label,Map<String,String >attributes) { 
+		String attString = getAttributeClauses(attributes);
+		// now query is in the statementString variable.
+		Object[] params = new Object[] { label,attString };
+		String queries = MessageFormat.format(matchQuery,params);
+		params = new Object[] {queries};
+		String wrappedQueries = MessageFormat.format(statementWrapper, params);
+		return wrappedQueries;
+	}
+	
+	
+	// turn each pair in map into name: \\\"value\\\", and separate by commas.
+	private String getAttributeClauses(Map<String, String> atts) {
+		ArrayList<String> pairs = new ArrayList<String>();
+		MessageFormat form = new MessageFormat(createNodeAttributes);
+		Set<String> keys = atts.keySet();
+		for (String key : keys) {
+			String val = atts.get(key);
+			String attString = form.format(new Object[] { key, val });
+			pairs.add(attString);
+		}
+		// put all in a list
+		String attListString = String.join(",", pairs);
+		form = new MessageFormat(createNodeAttributes);
+		return form.format(new Object[] { attListString });
 	}
 	
 	

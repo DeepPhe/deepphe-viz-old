@@ -7,7 +7,7 @@ GET     /                           controllers.Application.index()
 GET     /neo4jdemo                  controllers.Neo4JDemo.demo()
 GET 	/populateDummyData	    controllers.DummyData.populate()
 GET	/cleardb		    		controllers.DummyData.clear()
-GET /patients/{id}     		 controllers.PatientView.show(id)
+GET /patients/{id}		    		 controllers.PatientView.show(id)
 
 
 # Map static resources from the /public folder to the /assets URL path

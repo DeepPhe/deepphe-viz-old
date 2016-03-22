@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.HashMap;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -28,6 +29,8 @@ public class DatamodelUtility extends Neo4JRESTCaller{
 		}
 		return patientList;
 	}
+
+	
 	
 	private Patient getPatient(String pname,int pid) throws JsonParseException, JsonMappingException, IOException {
 		
@@ -50,8 +53,16 @@ public class DatamodelUtility extends Neo4JRESTCaller{
 			return p;
 	}
 	
-	public Patient getPatient(String name) {
-		return (Patient) null;
+	public Patient getPatient(String name) throws JsonParseException, JsonMappingException, IOException {
+		HashMap<String,String> atts = new HashMap<String,String>();
+		atts.put("name,",name);
+		List<LinkedHashMap<String,Object>> docrows = getNodesWithLabelAndAttributes("Patient",atts);
+		// should only be one thing in the results
+		LinkedHashMap<String,Object> datamap = docrows.get(0);
+		name = (String) datamap.get("name");
+		int id = (int) datamap.get("id");
+		
+		return getPatient(name,id);
 	}
 	
 	private Document getDocument(String dname,int id,String text,String date) throws JsonParseException, JsonMappingException, IOException {
