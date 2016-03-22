@@ -66,6 +66,7 @@ public class Neo4JRESTCaller {
 	private static String statementWrapper = "'{' \"statements\": [ {0} ] \" '}' ";
 	private static String matchQuery = "'{' \"statement\": \"match (n:{0} {1}) return id(n)\" '}'";
 	private static String createNodeAttributes = "  '{' {0} '}'";
+	public static String createAttribute = "{0}: \\\"{1}\\\" ";
 	
 	private String makeCypherQuery(String label,Map<String,String >attributes) { 
 		String attString = getAttributeClauses(attributes);
@@ -81,7 +82,7 @@ public class Neo4JRESTCaller {
 	// turn each pair in map into name: \\\"value\\\", and separate by commas.
 	private String getAttributeClauses(Map<String, String> atts) {
 		ArrayList<String> pairs = new ArrayList<String>();
-		MessageFormat form = new MessageFormat(createNodeAttributes);
+		MessageFormat form = new MessageFormat(createAttribute);
 		Set<String> keys = atts.keySet();
 		for (String key : keys) {
 			String val = atts.get(key);
@@ -203,6 +204,8 @@ public class Neo4JRESTCaller {
 	}
 	
 	public List<LinkedHashMap<String, Object>> objectifyNodeJSON(String jsonStr) throws JsonParseException, JsonMappingException, IOException{
+		System.err.println("ObectifyJson: "+jsonStr);
+		
 		ObjectMapper mapper = new ObjectMapper();
         Map<String,Object> dataMap = new HashMap<String,Object>(); 
         Object[] rows = new Object[]{};
