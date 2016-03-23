@@ -56,12 +56,10 @@ public class DatamodelUtility extends Neo4JRESTCaller{
 	public Patient getPatient(String name) throws JsonParseException, JsonMappingException, IOException {
 		HashMap<String,String> atts = new HashMap<String,String>();
 		atts.put("name",name);
-		List<LinkedHashMap<String,Object>> docrows = getNodesWithLabelAndAttributes("Patient",atts);
+		List<String> ids = getNodesWithLabelAndAttributes("Patient",atts);
 		// should only be one thing in the results
-		LinkedHashMap<String,Object> datamap = docrows.get(0);
-		name = (String) datamap.get("name");
-		int id = (int) datamap.get("id");
-		
+		String idstring = ids.get(0);
+		int id = Integer.parseInt(idstring);
 		return getPatient(name,id);
 	}
 	

@@ -1,39 +1,49 @@
 @(patient: db.Patient) @main("DeepPHE Demo") {
 
-@patient.getName()
+<h1>@patient.getName()</h1>
 
 @for(document <- patient.getDocuments()){
-@document.getName() Summary
+<h2>@document.getName(): Summary</h2>
 
-Diagnoses
+
 
 @if(document.getDiagnoses()!=null){
+<h3>Diagnoses</h3>
+<UL>
 @for(dx <- document.getDiagnoses()){
-@dx.getName()
+<LI>@dx.getName()</LI>
 }
+</UL>
 }
-Procedures
+
 
 @if(document.getProcedures()!=null){
+<h3>Procedures</h3>
+<UL>
 @for(proc <- document.getProcedures()){
-@proc.getName()
+<LI>@proc.getName()</LI>
 }
+</UL>
 }
-Observations
 
 @if(document.getObservations()!=null){
+<h3>Observations</h3>
+<UL>
 @for(obs <- document.getObservations()){
-@obs.getName()
+<LI>@obs.getName()</LI>
 }
+</UL>
 }
-Medications
 
 @if(document.getMedications()!=null){
+<h3>Medications</h3>
+<ul>
 @for(medication <- document.getMedications()){
-@medication.getName()
+<li>@medication.getName()</li>
 }
+</ul>
 }
-Report Text
+<H3>Report Text</H3>
 
 @document.getText()
 

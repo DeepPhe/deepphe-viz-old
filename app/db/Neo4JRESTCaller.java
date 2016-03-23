@@ -54,12 +54,13 @@ public class Neo4JRESTCaller {
 	}
 	
 	
-	
-	public List<LinkedHashMap<String,Object>> getNodesWithLabelAndAttributes(String label, Map<String,String> attributes ) throws JsonParseException, JsonMappingException, IOException {
+	// return a list of strings that are nodes
+	public List<String> getNodesWithLabelAndAttributes(String label, Map<String,String> attributes ) throws JsonParseException, JsonMappingException, IOException {
 		String postURI = serverRootURI+ "transaction/commit";
 		String query = makeCypherQuery(label,attributes);
 		String jsonStr = makePOSTCall(postURI,query);
-		return objectifyNodeJSON(jsonStr);
+		return parseIdList(jsonStr);
+		
 	}
 	
 	// this code is in dummy data as well.. might want to consolidate later
@@ -136,6 +137,7 @@ public class Neo4JRESTCaller {
 	
 
 	private String makeRESTCall(String restURI) {
+	    System.err.println("making rest call..."+restURI);
 		ClientConfig config = new ClientConfig();
 
 	    Client client = ClientBuilder.newClient(config);
@@ -232,6 +234,44 @@ public class Neo4JRESTCaller {
         }
         
         return out;
+	}
+	
+	// jsonStr might look like {"results":[{"columns":["id(n)"],"data":[{"row":[85]}]}],"errors":[]}
+	// need to just parse out the results now. what are they ids./? 
+	// warning. this is probably quite fragile.
+	// TODO: CLEAN AND VERIFY
+	public List<String> parseIdList(String jsonStr) throws JsonParseException, JsonMappingException, IOException{
+	
+		List<String> ids = new ArrayList<String>();
+		ObjectMapper mapper = new ObjectMapper();
+        Map<String,Object> dataMap = new HashMap<String,Object>(); 
+        Object[] rows = new Object[]{};
+        LinkedHashMap<String, Object> resmap = (LinkedHashMap<String, Object>) mapper.readValue(jsonStr, Map.class);
+        Object results = (Object) resmap.get("results");
+        List<Object> resArray = (List<Object>)results;
+        Object res = resArray.get(0);
+        
+        // get data out of this
+        LinkedHashMap<String,Object> coldata = (LinkedHashMap<String,Object>) res;
+        Object data = (Object) coldata.get("data");
+        List<Object> dataArray = (List<Object>) data;
+        for (Object d:dataArray) {
+        	LinkedHashMap<String,Object> datamap = (LinkedHashMap<String,Object>) d;
+        	Object row =datamap.get("row");
+        	List<Object> rowArray = (List<Object>) row;
+        	for (Object r: rowArray) {
+        		if (r != null) {
+        			int rid = (int) r;
+        			ids.add(String.valueOf(rid));
+        		}
+        	}
+        	
+        }
+        
+        //get data from this
+        // iterate over  data, get rows..
+		
+		return ids;
 	}
 
 }

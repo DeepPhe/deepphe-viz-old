@@ -1,10 +1,10 @@
 * test
 ** configure travis with neo4j
+* clean up object-graph mapping
 ** have it run the test
-
 * basic display?
-* routing is not working. why not?
-*** test
+** have document date shown
+**  hide headers when no data available
 * prototypes - something for phenotype level at top and  episodes below
 * figure out what to do with list of bodysites
 ** who has bodysites?
@@ -44,3 +44,5 @@ Done
 *** finish get Patient
 ** getPatient 
 *** finish makeCypherQuery
+* routing is not working. why not?
+*** test
